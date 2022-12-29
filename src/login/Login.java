@@ -33,8 +33,11 @@ package login;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import static javafx.geometry.HPos.RIGHT;
+
+import javafx.event.EventType;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -42,6 +45,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
@@ -49,6 +54,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class Login extends Application {
 
@@ -61,17 +67,19 @@ public class Login extends Application {
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
 
-        Text scenetitle = new Text("Welcome");
-        scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-        grid.add(scenetitle, 0, 0, 2, 1);
+        Text sceneTitle = new Text("Welcome");
+        sceneTitle.setFont(Font.font("", FontWeight.NORMAL, 20));
+        grid.add(sceneTitle, 0, 0, 2, 1);
 
         Label userName = new Label("User Name:");
+        userName.setFont(Font.font("", FontWeight.NORMAL, 10));
         grid.add(userName, 0, 1);
 
         TextField userTextField = new TextField();
         grid.add(userTextField, 1, 1);
 
         Label pw = new Label("Password:");
+        pw.setFont(Font.font("", FontWeight.NORMAL, 10));
         grid.add(pw, 0, 2);
 
         PasswordField pwBox = new PasswordField();
@@ -83,24 +91,32 @@ public class Login extends Application {
         hbBtn.getChildren().add(btn);
         grid.add(hbBtn, 1, 4);
 
-        final Text actiontarget = new Text();
-        grid.add(actiontarget, 0, 6);
-        grid.setColumnSpan(actiontarget, 2);
-        grid.setHalignment(actiontarget, RIGHT);
-        actiontarget.setId("actiontarget");
+        final Text actionTarget= new Text();
+        grid.add(actionTarget, 0, 6);
+        grid.setColumnSpan(actionTarget, 2);
+        grid.setHalignment(actionTarget, RIGHT);
+        actionTarget.setId("actionTarget");
 
         btn.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
             public void handle(ActionEvent e) {
-                actiontarget.setFill(Color.FIREBRICK);
-                actiontarget.setText("Sign in button pressed");
+                actionTarget.setFill(Color.FIREBRICK);
+                actionTarget.setText("Sign in button pressed");
                 System.out.println("Login: " + userTextField.getText());
                 System.out.println("Passw: " + pwBox.getText());
             }
         });
 
         Scene scene = new Scene(grid, 300, 275);
+
+        scene.addEventHandler(KeyEvent.KEY_PRESSED, event -> {
+            if(event.getCode() == KeyCode.ENTER) {
+                System.out.println("Login: " + userTextField.getText());
+                System.out.println("Passw: " + pwBox.getText());
+            }
+        });
+
         primaryStage.setScene(scene);
         primaryStage.show();
     }
